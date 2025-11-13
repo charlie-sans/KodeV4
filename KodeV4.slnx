@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="KodeV4.csproj" />
+  <Project Path="src/Runnables/Runnables.csproj" />
+</Solution>
