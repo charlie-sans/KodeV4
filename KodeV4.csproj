@@ -1,18 +1,36 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="PMS\" />
+    <Compile Remove="PMS\**" />
+    <EmbeddedResource Remove="PMS\**" />
+    <None Remove="PMS\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <!-- import the Runnables project -->
   <ItemGroup>
-    <ProjectReference Include="src/Runnables/Runnables.csproj" />
+    <ProjectReference Include="Runnables/Runnables.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+  <!-- Razor views and code-behind will be handled automatically by the Web SDK. -->
+  <!-- Remove direct copy of JS files; instead, use a custom build step to transpile with Babel. -->
+  <Target Name="TranspileIndexJs" BeforeTargets="Build">
+    <Exec Command="npx babel src/www/Index.js --out-file $(OutDir)/src/www/Index.js" />
+  </Target>
 
 </Project>
